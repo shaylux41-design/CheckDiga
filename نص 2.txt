@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تشيك ديجا - فحص السيارات في الجزائر</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        h1 {
+            text-align: center;
+            color: #ff4757;
+            font-size: 24px;
+        }
+        p.subtitle {
+            text-align: center;
+            color: #a4b0be;
+            font-size: 14px;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #dfe4ea;
+        }
+        select, input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            background: #2f3542;
+            border: 1px solid #57606f;
+            color: white;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button {
+            background-color: #ff4757;
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            margin-top: 25px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #ff6b81;
+        }
+        .result-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #2f3542;
+            border-right: 5px solid #2ed573;
+            border-radius: 6px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>تشيك ديجا 🚗</h1>
+    <p class="subtitle">التطبيق الذكي لتشخيص أعطال السيارات في الجزائر</p>
+    
+    <label for="carModel">اختر العلامة التجارية:</label>
+    <select id="carModel">
+        <option value="renault">رونو (Renault)</option>
+        <option value="peugeot">بيجو (Peugeot)</option>
+        <option value="volkswagen">فولكس فاجن (Volkswagen)</option>
+        <option value="hyundai">هيونداي (Hyundai)</option>
+        <option value="dacia">داسيا (Dacia)</option>
+    </select>
+
+    <label for="errorCode">أدخل رمز الخطأ (OBD) أو العطل:</label>
+    <input type="text" id="errorCode" placeholder="مثال: P0300, P0100 أو اكتب الدخان">
+
+    <button onclick="diagnoseCar()">فحص وتشخيص العطل</button>
+
+    <div id="result" class="result-box">
+        <h3>نتيجة التشخيص:</h3>
+        <p id="resultText"></p>
+    </div>
+</div>
+
+<script>
+    // قاعدة بيانات مصغرة لأكواد الأعطال الشائعة
+    const commonFaults = {
+        "p0300": "مشكلة في احتراق المحرك (Random/Multiple Cylinder Misfire Detected). يُنصح بفحص شمعات الاحتراق (Bougies) وأسلاك الإشعال.",
+        "p0100": "عطل في حساس تدفق الهواء (MAF Sensor). قد يسبب تقطيعاً في المحرك وزيادة استهلاك الوقود.",
+        "p0420": "كفاءة نظام محول الحفاز (Catalytic Converter) أقل من الحد المطلوب، وغالباً ما ترتبط بنوعية الوقود أو حساس الأكسجين."
+    };
+
+    function diagnoseCar() {
+        const model = document.getElementById('carModel').value;
+        const codeInput = document.getElementById('errorCode').value.trim().toLowerCase();
+        const resultBox = document.getElementById('result');
+        const resultText = document.getElementById('resultText');
+
+        if(codeInput === "") {
+            alert("الرجاء إدخال رمز الخطأ أو وصف العطل!");
+            return;
+        }
+
+        resultBox.style.display = "block";
+
+        let diagnosis = commonFaults[codeInput];
+        if (diagnosis) {
+            resultText.innerHTML = `السيارة: <strong>${model.toUpperCase()}</strong><br>` +
+                                   `التشخيص: ${diagnosis}`;
+        } else {
+            resultText.innerHTML = `السيارة: <strong>${model.toUpperCase()}</strong><br>` +
+                                   `المعطيات (${codeInput}): العطل غير مسجل في القاعدة السريعة، لكنه قد يتعلق بالحساسات أو منظومة الحقن. يُنصح بالربط بجهاز الماسح (Scanner) لدى ورشة معتمدة.`;
+        }
+    }
+</script>
+
+</body>
+</html>
